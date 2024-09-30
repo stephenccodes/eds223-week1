@@ -158,7 +158,7 @@ tm_shape(world_vector) +
 ```
 
 ```{r}
-# add gridlines to your map
+# add curved gridlines to your map
 tm_shape(world_vector) +
   tm_fill() +
   tm_graticules()
@@ -167,8 +167,9 @@ tm_shape(world_vector) +
 ```{r}
 # you can put the  map on top of the lines, too
 tm_shape(world_vector) +
-  tm_fill() +
-  tm_grid()
+  tm_graticules() +
+  tm_fill() 
+  
 ```
 
 ```{r}
