@@ -3,6 +3,69 @@ title: "wk1_discussion"
 author: "Stephen Carroll"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
+# load all libraries
+```{r}
+library(here)
+library(tidyverse)
+library(stars)
+library(sf)
+library(tmap)
+library(viridisLite)
+```
+
+```{r}
+# Read in the data and assign it to variables
+ei_points <- sf::read_sf(here::here("data", "easter_island", "ei_points.gpkg"))
+volcanoes <- subset(ei_points, type == "volcano")
+ei_elev <- stars::read_stars(here::here("data", "easter_island", "ei_elev.tif"))
+ei_borders <- sf::read_sf(here::here("data", "easter_island", "ei_border.gpkg"))
+ei_roads <- sf::read_sf(here::here("data", "easter_island", "ei_roads.gpkg"))
+```
+
+# Tasks
+```{r}
+# 1. Create a map of Easter Island
+tm_shape(ei_borders) +
+  tm_borders()
+```
+
+```{r}
+# 2. Create a map of Easter Island and...
+# denote the island's borders and continuous elevation
+# denote the island's volcanoes and roads
+# play with the color palette and essential map elements
+
+tm_shape(ei_borders) +
+  tm_borders() +
+  tm_layout(bg.color = "powderblue",
+            legend.position = c("right", "bottom"),
+            main.title = "Volcanoes of Rapa Nui",
+            legend.bg.color = "white", legend.height = 0.38, legend.bg.alpha = .3) +
+tm_shape(ei_elev) +
+  tm_raster(palette = c("YlGn"), style = "cont") +
+tm_shape(volcanoes) +
+  tm_dots(size = "elevation")
+```
+
+
+```{r}
+#Create an interactive map of Easter Island
+tmap_mode("view")
+
+
+tm_shape(ei_borders) +
+  tm_borders() +
+  tm_layout(bg.color = "powderblue",
+            main.title = "Volcanoes of Rapa Nui",
+            legend.bg.color = "white", legend.height = 0.38, legend.bg.alpha = .3) +
+tm_shape(ei_elev) +
+  tm_raster(palette = c("YlGn"), style = "cont") +
+tm_shape(volcanoes) +
+  tm_dots(size = .1)
+
+```
 
